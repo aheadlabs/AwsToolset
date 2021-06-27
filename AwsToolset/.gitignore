@@ -1,0 +1,7 @@
+﻿#IDEs
+.vs/
+*.user
+
+# Generated code
+bin/
+obj/
