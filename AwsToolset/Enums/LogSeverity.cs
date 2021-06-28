@@ -1,5 +1,4 @@
-﻿
-namespace AwsToolset.Enums
+﻿namespace AwsToolset.Enums
 {
 	public enum LogSeverity
     {

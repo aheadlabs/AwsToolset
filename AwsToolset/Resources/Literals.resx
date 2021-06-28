@@ -117,13 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="b_ObjectTryingToBeUploadedToBucketAlreadyExistsIQuit" xml:space="preserve">
+    <value> The object trying to be uploaded to the bucket already exists. I quit.</value>
+  </data>
+  <data name="p_CouldNotGetObjectFromBucketError" xml:space="preserve">
+    <value> Couldn't get object {0} from bucket {1}. Error: {2}.</value>
+  </data>
   <data name="p_ErrorListingObjectsOfBucket" xml:space="preserve">
     <value> An error occurred when listing the objects of the bucket {0}.</value>
+  </data>
+  <data name="p_ErrorWritingObjectToS3" xml:space="preserve">
+    <value> Error encountered on server when writing an object to S3. Message: {0}.</value>
   </data>
   <data name="p_LogGroupNotReset" xml:space="preserve">
     <value> Log group {0} NOT reset.</value>
   </data>
   <data name="p_LogGroupReset" xml:space="preserve">
     <value> Log group {0} reset.</value>
+  </data>
+  <data name="p_ObjectWithKeyWasDeletedInBucket" xml:space="preserve">
+    <value> The object with key {0} was deleted in bucket {1}.</value>
+  </data>
+  <data name="p_UnknownErrorWritingObjectToS3" xml:space="preserve">
+    <value> Unknown error encountered on server when writing an object to S3. Message: {0}.</value>
   </data>
 </root>
