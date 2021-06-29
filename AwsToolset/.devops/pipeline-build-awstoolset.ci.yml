@@ -1,4 +1,4 @@
-﻿# Pipeline /.devops/pipeline-build-awstoolset-ci.yml
+# Pipeline /.devops/pipeline-build-awstoolset-ci.yml
 
 trigger:
   batch: true
