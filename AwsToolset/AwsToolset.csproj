@@ -26,4 +26,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include=".devops\pipeline-build-awstoolset.ci.yml" />
+  </ItemGroup>
+
 </Project>
