@@ -1,6 +1,7 @@
 ﻿using Amazon;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 
@@ -55,7 +56,19 @@ namespace AwsToolset.Services
         /// <inheritdoc />
         public TOut Add(TIn inObject)
         {
-            throw new NotImplementedException();
+            string jsonText = JsonSerializer.Serialize(inObject);
+            var item = Document.FromJson(jsonText);
+
+            var putItemConfig = new PutItemOperationConfig
+            {
+                ReturnValues = ReturnValues.AllNewAttributes
+            }; 
+
+            Document operationResult = _tableEnvironment.PutItemAsync(item, putItemConfig).Result;
+
+            TOut result = JsonSerializer.Deserialize<TOut>(operationResult.ToJson());
+
+            return result;
         }
 
         /// <inheritdoc />
@@ -67,7 +80,19 @@ namespace AwsToolset.Services
         /// <inheritdoc />
         public TOut Edit(TIn inObject)
         {
-            throw new NotImplementedException();
+            string jsonText = JsonSerializer.Serialize(inObject);
+            var item = Document.FromJson(jsonText);
+
+            var updateItemConfig = new UpdateItemOperationConfig
+            {
+                ReturnValues = ReturnValues.AllNewAttributes
+            }; 
+
+            Document operationResult = _tableEnvironment.UpdateItemAsync(item, updateItemConfig).Result;
+
+            TOut result = JsonSerializer.Deserialize<TOut>(operationResult.ToJson());
+
+            return result;
         }
 
         /// <inheritdoc />
