@@ -36,12 +36,11 @@ namespace AwsToolset.Services
 		public S3 S3Settings { get; set; }
 
 		/// <inheritdoc />
-		public RegionEndpoint BucketRegion
+		public string BucketRegion
 		{
-			get => _bucketRegion;
-			set
+            set
 			{
-				_bucketRegion = value;
+				_bucketRegion = RegionEndpoint.GetBySystemName(value);
 
 				// Create an S3 client that uses Newtonsoft.Json serialization
 				_amazonS3 = new AmazonS3Client(_bucketRegion);

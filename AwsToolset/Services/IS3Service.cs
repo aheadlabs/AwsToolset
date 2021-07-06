@@ -23,7 +23,8 @@ namespace AwsToolset.Services
 		/// <summary>
 		/// Determines the region of the S3 
 		/// </summary>
-		RegionEndpoint BucketRegion { get; set; }
+		/// <see>https://docs.aws.amazon.com/general/latest/gr/rande.html</see>/>
+		string BucketRegion { set; }
 
 		/// <summary>
 		/// Gets the bucket ARN (Amazon Resource Name)

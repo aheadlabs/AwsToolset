@@ -40,7 +40,7 @@ namespace AwsToolset.Tests.Services
 				.Returns(_transferUtilityMock.Object.OpenStream(_bucketName, _objectKey));
 
 			// Act
-			_s3ServiceMock.Object.BucketRegion = RegionEndpoint.GetBySystemName(RegionName);
+			_s3ServiceMock.Object.BucketRegion = RegionName;
 			Stream result = _s3ServiceMock.Object.GetFileAsStream(_bucketName, _objectKey);
 
 			// Assert
@@ -59,7 +59,7 @@ namespace AwsToolset.Tests.Services
 			// Act & Assert
 			_sut = new S3Service(_cloudWatchService, _restServiceMemoryStream)
 			{
-				BucketRegion = RegionEndpoint.GetBySystemName(RegionName)
+				BucketRegion = RegionName
 			};
 			Assert.Throws<AggregateException>(() => _sut.GetFileAsStream(badBucketName, badObjectKey));
 		}
