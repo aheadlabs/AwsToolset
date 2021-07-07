@@ -230,7 +230,7 @@ namespace AwsToolset.Services
         /// <inheritdoc />
         public string GetObjectArn(string objectKey) => $"{BucketArn}/{objectKey}";
         /// <inheritdoc />
-        public Uri GetObjectUrl(string objectKey) => new Uri($"{BucketUrl}/{objectKey}");
+        public Uri GetObjectUrl(string objectKey) => new Uri($"{BucketUrl}{objectKey}");
 
         #endregion
 
