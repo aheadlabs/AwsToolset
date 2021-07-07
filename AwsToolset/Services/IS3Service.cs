@@ -1,5 +1,4 @@
-﻿using Amazon;
-using Amazon.S3.Model;
+﻿using Amazon.S3.Model;
 using AwsToolset.Enums;
 using AwsToolset.Models;
 using System;
@@ -85,9 +84,11 @@ namespace AwsToolset.Services
         /// <param name="keyName">Key name of the object in S3</param>
         /// <param name="objectData"></param>
         /// <param name="overwrite">If true (by default), the file will be overwritten or a new version will be created if versioning is enabled in the bucket</param>
+        /// <param name="publiclyVisible">If true, object will be publicly visible applying PublicRead permission to the object, otherwise (by default), Private will be applied</param>
         /// <param name="tagSet">List of tags to be attached to the object</param>
         /// <returns>Response from AWS</returns>
-        void UploadObject(string keyName, Stream objectData, bool overwrite = true, List<Tag> tagSet = null);
+        /// <see>https://docs.aws.amazon.com/sdkfornet1/latest/apidocs/html/T_Amazon_S3_Model_S3CannedACL.htm</see>
+        void UploadObject(string keyName, Stream objectData, bool overwrite = true, bool publiclyVisible = false, List<Tag> tagSet = null);
 
         /// <summary>
         /// Uploads an XML file to a S3 bucket attaching a tag set
@@ -95,19 +96,23 @@ namespace AwsToolset.Services
         /// <param name="keyName">Key name of the object in S3</param>
         /// <param name="objectData"></param>
         /// <param name="overwrite">If true (by default), the file will be overwritten or a new version will be created if versioning is enabled in the bucket</param>
+        /// <param name="publiclyVisible">If true, object will be publicly visible applying PublicRead permission to the object, otherwise (by default), Private will be applied</param>
         /// <param name="tagSet">List of tags to be attached to the object</param>
         /// <returns>Response from AWS</returns>
-        void UploadObject(string keyName, XDocument objectData, bool overwrite = true, List<Tag> tagSet = null);
+        /// <see>https://docs.aws.amazon.com/sdkfornet1/latest/apidocs/html/T_Amazon_S3_Model_S3CannedACL.htm</see>
+        void UploadObject(string keyName, XDocument objectData, bool overwrite = true, bool publiclyVisible = false, List<Tag> tagSet = null);
 
         /// <summary>
         /// Puts an object in an S3 bucket directly from a URL
         /// </summary>
         /// <param name="url"></param>
         /// <param name="overwrite">If true (by default), the file will be overwritten or a new version will be created if versioning is enabled in the bucket</param>
+        /// <param name="publiclyVisible">If true, object will be publicly visible applying PublicRead permission to the object, otherwise (by default), Private will be applied</param>
         /// <param name="tagSet">List of tags to be attached to the object</param>
         /// <param name="prefix">Prefix for the keyName of the object</param>
         /// <returns>Key name of the uploaded object</returns>
-        string UploadObjectFromUrl(string url, bool overwrite = true, List<Tag> tagSet = null, string prefix = null);
+        /// <see>https://docs.aws.amazon.com/sdkfornet1/latest/apidocs/html/T_Amazon_S3_Model_S3CannedACL.htm</see>
+        string UploadObjectFromUrl(string url, bool overwrite = true, bool publiclyVisible = false, List<Tag> tagSet = null, string prefix = null);
 
         /// <summary>
         /// Gets a file from S3 and returns it as a Stream
