@@ -1,6 +1,6 @@
 ﻿using Amazon.S3.Model;
 using AwsToolset.Enums;
-using AwsToolset.Models;
+using AwsToolset.Models.S3;
 using System;
 using System.Collections.Generic;
 using System.IO;

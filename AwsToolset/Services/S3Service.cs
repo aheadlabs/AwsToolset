@@ -3,7 +3,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using AwsToolset.Enums;
-using AwsToolset.Models;
+using AwsToolset.Models.S3;
 using DotnetToolset.ExtensionMethods;
 using DotnetToolset.Services;
 using System;
