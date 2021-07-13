@@ -3,6 +3,15 @@ Opinionated repository that contains common .NET tools and patterns to interact 
 
 # Change log
 
+## v0.6.0
+* Implemented Get and Delete methods for DynamoDB service
+
+## v0.5.0
+* Set compatibility to .NET Standard 2.1.
+
+## v0.4.0
+* Added models for CodePipeline notifications
+
 ## v0.3.1
 * Fixed GetObjectUrl's method
 
@@ -13,7 +22,7 @@ Opinionated repository that contains common .NET tools and patterns to interact 
 * Updated service to get bucketRegion from the code instead of an AWS explicit class
 
 ## v0.2.0
-* Add and Edit methods for DynamoDB
+* Implemented Add and Edit methods for DynamoDB service
 
 ## v0.1.2
 * Update PR branch name

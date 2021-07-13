@@ -64,7 +64,7 @@ namespace AwsToolset.Services
             string jsonText = JsonConvert.SerializeObject(inObject);
             var item = Document.FromJson(jsonText);
 
-            var putItemConfig = new UpdateItemOperationConfig()
+            var putItemConfig = new UpdateItemOperationConfig
             {
                 ReturnValues = ReturnValues.AllNewAttributes
             }; 
@@ -79,7 +79,16 @@ namespace AwsToolset.Services
         /// <inheritdoc />
         public TOut Delete(int id)
         {
-            throw new NotImplementedException();
+            var deleteItemConfig = new DeleteItemOperationConfig
+            {
+                ReturnValues = ReturnValues.AllOldAttributes
+            };
+            
+            Document operationResult = _tableEnvironment.DeleteItemAsync(id, deleteItemConfig).Result;
+
+            TOut result = JsonConvert.DeserializeObject<TOut>(operationResult.ToJson());
+
+            return result;
         }
 
         /// <inheritdoc />
@@ -111,7 +120,16 @@ namespace AwsToolset.Services
         /// <inheritdoc />
         public TOut Get(int id)
         {
-            throw new NotImplementedException();
+            var getItemConfig = new GetItemOperationConfig
+            {
+                ConsistentRead = true
+            };
+            
+            Document operationResult = _tableEnvironment.GetItemAsync(id, getItemConfig).Result;
+
+            TOut result = JsonConvert.DeserializeObject<TOut>(operationResult.ToJson());
+
+            return result;
         }
 
         #endregion
