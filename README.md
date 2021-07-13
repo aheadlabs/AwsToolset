@@ -3,8 +3,11 @@ Opinionated repository that contains common .NET tools and patterns to interact 
 
 # Change log
 
-## v0.6.1
+## v0.6.2
 * Replaced Newtonsoft's Json dependency in favour of Microsoft's  System.Text.Json in DynamoDBService
+
+## v0.6.1
+* Renamed CodePipeline error notification class
 
 ## v0.6.0
 * Implemented Get and Delete methods for DynamoDB service
