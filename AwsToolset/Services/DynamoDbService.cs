@@ -1,7 +1,7 @@
 ﻿using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
 
@@ -40,11 +40,9 @@ namespace AwsToolset.Services
         /// <inheritdoc />
         public string Region
         {
-            set
-            {
+            set =>
                 // Use the config to feed the client
                 _client = new AmazonDynamoDBClient(new AmazonDynamoDBConfig { RegionEndpoint = RegionEndpoint.GetBySystemName(value) });
-            }
         }
 
         /// <inheritdoc />
@@ -61,7 +59,7 @@ namespace AwsToolset.Services
         /// <inheritdoc />
         public TOut Add(TIn inObject)
         {
-            string jsonText = JsonConvert.SerializeObject(inObject);
+            string jsonText = JsonSerializer.Serialize(inObject);
             var item = Document.FromJson(jsonText);
 
             var putItemConfig = new UpdateItemOperationConfig
@@ -71,7 +69,7 @@ namespace AwsToolset.Services
 
             Document operationResult = _tableEnvironment.UpdateItemAsync(item, putItemConfig).Result;
 
-            TOut result = JsonConvert.DeserializeObject<TOut>(operationResult.ToJson());
+            TOut result = JsonSerializer.Deserialize<TOut>(operationResult.ToJson());
 
             return result;
         }
@@ -86,7 +84,7 @@ namespace AwsToolset.Services
             
             Document operationResult = _tableEnvironment.DeleteItemAsync(id, deleteItemConfig).Result;
 
-            TOut result = JsonConvert.DeserializeObject<TOut>(operationResult.ToJson());
+            TOut result = JsonSerializer.Deserialize<TOut>(operationResult.ToJson());
 
             return result;
         }
@@ -94,7 +92,7 @@ namespace AwsToolset.Services
         /// <inheritdoc />
         public TOut Edit(TIn inObject)
         {
-            string jsonText = JsonConvert.SerializeObject(inObject);
+            string jsonText = JsonSerializer.Serialize(inObject);
             var item = Document.FromJson(jsonText);
 
             var updateItemConfig = new UpdateItemOperationConfig
@@ -105,7 +103,7 @@ namespace AwsToolset.Services
             Document operationResult = _tableEnvironment.UpdateItemAsync(item, updateItemConfig).Result;
             
 
-            TOut result = JsonConvert.DeserializeObject<TOut>(operationResult.ToJson());
+            TOut result = JsonSerializer.Deserialize<TOut>(operationResult.ToJson());
             
 
             return result;
@@ -127,7 +125,7 @@ namespace AwsToolset.Services
             
             Document operationResult = _tableEnvironment.GetItemAsync(id, getItemConfig).Result;
 
-            TOut result = JsonConvert.DeserializeObject<TOut>(operationResult.ToJson());
+            TOut result = JsonSerializer.Deserialize<TOut>(operationResult.ToJson());
 
             return result;
         }
