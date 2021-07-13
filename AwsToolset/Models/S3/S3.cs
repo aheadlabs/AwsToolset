@@ -1,4 +1,4 @@
-﻿namespace AwsToolset.Models
+﻿namespace AwsToolset.Models.S3
 {
 	public class S3
     {

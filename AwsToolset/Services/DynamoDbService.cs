@@ -1,19 +1,17 @@
 ﻿using Amazon;
-using System;
-using System.Collections.Generic;
-using System.Text.Json;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace AwsToolset.Services
 {
-    public class DynamoDbService<TIn, TOut> : IDynamoDbService<TIn, TOut> where TIn : class
+	public class DynamoDbService<TIn, TOut> : IDynamoDbService<TIn, TOut> where TIn : class
         where TOut: class
 
     {
         private AmazonDynamoDBClient _client;
-        private AmazonDynamoDBConfig _config;
-        private RegionEndpoint _regionEndpoint;
         private Table _tableEnvironment;
         private string _endPoint;
 
@@ -33,10 +31,9 @@ namespace AwsToolset.Services
             set
             {
                 _endPoint = value;
-                // Create the DynamoDb config
-                _config = new AmazonDynamoDBConfig { ServiceURL = _endPoint };
+                
                 // Use the config to feed the client
-                _client = new AmazonDynamoDBClient(_config);
+                _client = new AmazonDynamoDBClient(new AmazonDynamoDBConfig { ServiceURL = _endPoint });
             }
         }
 
@@ -45,11 +42,8 @@ namespace AwsToolset.Services
         {
             set
             {
-                _regionEndpoint = RegionEndpoint.GetBySystemName(value);
-                // Create the DynamoDb config
-                _config = new AmazonDynamoDBConfig { RegionEndpoint = _regionEndpoint };
                 // Use the config to feed the client
-                _client = new AmazonDynamoDBClient(_config);
+                _client = new AmazonDynamoDBClient(new AmazonDynamoDBConfig { RegionEndpoint = RegionEndpoint.GetBySystemName(value) });
             }
         }
 
@@ -67,7 +61,7 @@ namespace AwsToolset.Services
         /// <inheritdoc />
         public TOut Add(TIn inObject)
         {
-            string jsonText = JsonSerializer.Serialize(inObject);
+            string jsonText = JsonConvert.SerializeObject(inObject);
             var item = Document.FromJson(jsonText);
 
             var putItemConfig = new UpdateItemOperationConfig()
@@ -77,7 +71,7 @@ namespace AwsToolset.Services
 
             Document operationResult = _tableEnvironment.UpdateItemAsync(item, putItemConfig).Result;
 
-            TOut result = JsonSerializer.Deserialize<TOut>(operationResult.ToJson());
+            TOut result = JsonConvert.DeserializeObject<TOut>(operationResult.ToJson());
 
             return result;
         }
@@ -91,7 +85,7 @@ namespace AwsToolset.Services
         /// <inheritdoc />
         public TOut Edit(TIn inObject)
         {
-            string jsonText = JsonSerializer.Serialize(inObject);
+            string jsonText = JsonConvert.SerializeObject(inObject);
             var item = Document.FromJson(jsonText);
 
             var updateItemConfig = new UpdateItemOperationConfig
@@ -102,7 +96,7 @@ namespace AwsToolset.Services
             Document operationResult = _tableEnvironment.UpdateItemAsync(item, updateItemConfig).Result;
             
 
-            TOut result = JsonSerializer.Deserialize<TOut>(operationResult.ToJson());
+            TOut result = JsonConvert.DeserializeObject<TOut>(operationResult.ToJson());
             
 
             return result;

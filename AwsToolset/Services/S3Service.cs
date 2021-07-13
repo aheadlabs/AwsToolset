@@ -3,7 +3,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using AwsToolset.Enums;
-using AwsToolset.Models;
+using AwsToolset.Models.S3;
 using DotnetToolset.ExtensionMethods;
 using DotnetToolset.Services;
 using System;
@@ -36,12 +36,11 @@ namespace AwsToolset.Services
 		public S3 S3Settings { get; set; }
 
 		/// <inheritdoc />
-		public RegionEndpoint BucketRegion
+		public string BucketRegion
 		{
-			get => _bucketRegion;
-			set
+            set
 			{
-				_bucketRegion = value;
+				_bucketRegion = RegionEndpoint.GetBySystemName(value);
 
 				// Create an S3 client that uses Newtonsoft.Json serialization
 				_amazonS3 = new AmazonS3Client(_bucketRegion);
@@ -95,7 +94,7 @@ namespace AwsToolset.Services
         public bool ObjectExists(string keyName) => GetBucketObjectsKeyNameList(o => o.Key == keyName).Any();
 
         /// <inheritdoc />
-        public void UploadObject(string keyName, Stream objectData, bool overwrite = true, List<Tag> tagSet = null)
+        public void UploadObject(string keyName, Stream objectData, bool overwrite = true, bool publiclyVisible = false,  List<Tag> tagSet = null)
         {
             TransferUtility fileTransferUtility = new TransferUtility(_amazonS3);
 
@@ -122,7 +121,8 @@ namespace AwsToolset.Services
                         BucketName = S3Settings.BucketName,
                         Key = keyName,
                         TagSet = tagSet,
-                        InputStream = ms
+                        InputStream = ms,
+                        CannedACL = publiclyVisible ? S3CannedACL.PublicRead : S3CannedACL.Private
                     };
                     fileTransferUtility.Upload(uploadRequest);
                 }
@@ -148,18 +148,18 @@ namespace AwsToolset.Services
         }
 
         /// <inheritdoc />
-        public void UploadObject(string keyName, XDocument objectData, bool overwrite = true, List<Tag> tagSet = null)
+        public void UploadObject(string keyName, XDocument objectData, bool overwrite = true, bool publiclyVisible = false, List<Tag> tagSet = null)
         {
             // Create stream from XDocument
             MemoryStream ms = new MemoryStream();
             objectData.Save(ms);
 
             // Upload object
-            UploadObject(keyName, ms, overwrite, tagSet);
+            UploadObject(keyName, ms, overwrite, publiclyVisible, tagSet);
         }
 
         /// <inheritdoc />
-        public string UploadObjectFromUrl(string url, bool overwrite = true, List<Tag> tagSet = null, string prefix = null)
+        public string UploadObjectFromUrl(string url, bool overwrite = true, bool publiclyVisible = false, List<Tag> tagSet = null, string prefix = null)
         {
             try
             {
@@ -168,7 +168,7 @@ namespace AwsToolset.Services
                 string fileName = Path.GetFileName(url);
                 string keyNamePrefix = (prefix != null) ? $"{prefix}-" : string.Empty;
                 string keyName = $"{keyNamePrefix}{S3Settings.BaseDocumentKeyName}{fileName}";
-                UploadObject(keyName, data, overwrite, tagSet);
+                UploadObject(keyName, data, overwrite, publiclyVisible ,tagSet);
                 return keyName;
             }
             catch (AmazonS3Exception e)
@@ -230,7 +230,7 @@ namespace AwsToolset.Services
         /// <inheritdoc />
         public string GetObjectArn(string objectKey) => $"{BucketArn}/{objectKey}";
         /// <inheritdoc />
-        public Uri GetObjectUrl(string objectKey) => new Uri($"{BucketUrl}/{objectKey}");
+        public Uri GetObjectUrl(string objectKey) => new Uri($"{BucketUrl}{objectKey}");
 
         #endregion
 
