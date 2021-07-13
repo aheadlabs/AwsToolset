@@ -3,6 +3,9 @@ Opinionated repository that contains common .NET tools and patterns to interact 
 
 # Change log
 
+## v0.6.1
+* Renamed CodePipeline error notification class
+
 ## v0.6.0
 * Implemented Get and Delete methods for DynamoDB service
 

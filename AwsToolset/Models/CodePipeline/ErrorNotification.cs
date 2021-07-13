@@ -1,6 +1,6 @@
 ﻿namespace AwsToolset.Models.CodePipeline
 {
-	public class CodePipelineErrorNotification
+	public class ErrorNotification
 	{
 		public string Account { get; set; }
 		public string DetailType { get; set; }
