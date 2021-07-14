@@ -3,6 +3,10 @@ Opinionated repository that contains common .NET tools and patterns to interact 
 
 # Change log
 
+## v0.7.0
+* Added support for AWS SSM (Simple Systems Management)
+* Updated project dependencies
+
 ## v0.6.2
 * Replaced Newtonsoft's Json dependency in favour of Microsoft's  System.Text.Json in DynamoDBService
 
