@@ -67,7 +67,7 @@ namespace AwsToolset.Services
                 ReturnValues = ReturnValues.AllNewAttributes
             }; 
 
-            Document operationResult = _tableEnvironment.UpdateItemAsync(item, putItemConfig).Result;
+            Document operationResult = _tableEnvironment.UpdateItemAsync(item, putItemConfig).Result ?? new Document();
 
             TOut result = JsonSerializer.Deserialize<TOut>(operationResult.ToJson());
 
@@ -82,7 +82,7 @@ namespace AwsToolset.Services
                 ReturnValues = ReturnValues.AllOldAttributes
             };
             
-            Document operationResult = _tableEnvironment.DeleteItemAsync(id, deleteItemConfig).Result;
+            Document operationResult = _tableEnvironment.DeleteItemAsync(id, deleteItemConfig).Result ?? new Document();
 
             TOut result = JsonSerializer.Deserialize<TOut>(operationResult.ToJson());
 
@@ -100,7 +100,7 @@ namespace AwsToolset.Services
                 ReturnValues = ReturnValues.UpdatedNewAttributes
             }; 
 
-            Document operationResult = _tableEnvironment.UpdateItemAsync(item, updateItemConfig).Result;
+            Document operationResult = _tableEnvironment.UpdateItemAsync(item, updateItemConfig).Result ?? new Document();
             
 
             TOut result = JsonSerializer.Deserialize<TOut>(operationResult.ToJson());
@@ -123,7 +123,7 @@ namespace AwsToolset.Services
                 ConsistentRead = true
             };
             
-            Document operationResult = _tableEnvironment.GetItemAsync(id, getItemConfig).Result;
+            Document operationResult = _tableEnvironment.GetItemAsync(id, getItemConfig).Result ?? new Document();
 
             TOut result = JsonSerializer.Deserialize<TOut>(operationResult.ToJson());
 
