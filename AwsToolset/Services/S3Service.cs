@@ -131,17 +131,15 @@ namespace AwsToolset.Services
             {
                 if (ex is AmazonS3Exception)
                 {
-                    _cloudWatchService.LogLine(LogSeverity.Error,
-                        Res.p_ErrorWritingObjectToS3.ParseParameter(ex.Message));
+                    _logger.LogError(Res.p_ErrorWritingObjectToS3.ParseParameter(ex.Message));
                 }
                 else if (ex is InvalidOperationException)
                 {
-                    _cloudWatchService.LogLine(LogSeverity.Error, ex.Message);
+                    _logger.LogError(ex.Message);
                 }
                 else
                 {
-                    _cloudWatchService.LogLine(LogSeverity.Error,
-                        Res.p_UnknownErrorWritingObjectToS3.ParseParameter(ex.Message));
+                    _logger.LogError(Res.p_UnknownErrorWritingObjectToS3.ParseParameter(ex.Message));
                 }
                 throw;
             }
@@ -173,14 +171,12 @@ namespace AwsToolset.Services
             }
             catch (AmazonS3Exception e)
             {
-                _cloudWatchService.LogLine(LogSeverity.Error,
-                    Res.p_ErrorWritingObjectToS3.ParseParameter(e.Message));
+                _logger.LogError(Res.p_ErrorWritingObjectToS3.ParseParameter(e.Message));
                 throw;
             }
             catch (Exception e)
             {
-                _cloudWatchService.LogLine(LogSeverity.Error,
-                    Res.p_UnknownErrorWritingObjectToS3.ParseParameter(e.Message));
+                _logger.LogError(Res.p_UnknownErrorWritingObjectToS3.ParseParameter(e.Message));
                 throw;
             }
         }
@@ -217,8 +213,7 @@ namespace AwsToolset.Services
         public async void DeleteObjectAsync(DeleteObjectRequest deleteObjectRequest)
         {
             await _amazonS3.DeleteObjectAsync(deleteObjectRequest);
-            _cloudWatchService.LogLine(LogSeverity.Info,
-                Res.p_ObjectWithKeyWasDeletedInBucket.ParseParameters(new object[] { deleteObjectRequest.Key, deleteObjectRequest.BucketName }));
+            _logger.LogError(Res.p_ObjectWithKeyWasDeletedInBucket.ParseParameters(new object[] { deleteObjectRequest.Key, deleteObjectRequest.BucketName }));
         }
 
         /// <inheritdoc />
