@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Microsoft.Extensions.Logging;
 using Res = AwsToolset.Resources.Literals;
 
 namespace AwsToolset.Services
@@ -23,12 +24,14 @@ namespace AwsToolset.Services
 		private readonly IRestService<MemoryStream> _restService;
 		private IAmazonS3 _amazonS3;
 		private RegionEndpoint _bucketRegion;
+        private readonly ILogger<S3Service> _logger;
 
-		public S3Service(ICloudWatchService cloudWatchService, IRestService<MemoryStream> restService)
+		public S3Service(ICloudWatchService cloudWatchService, IRestService<MemoryStream> restService, ILogger<S3Service> logger)
 		{
 			_cloudWatchService = cloudWatchService;
 			_restService = restService;
-		}
+            _logger = logger;
+        }
 
 		#region Public properties
 

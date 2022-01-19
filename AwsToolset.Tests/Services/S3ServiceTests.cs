@@ -5,6 +5,7 @@ using DotnetToolset.Services;
 using Moq;
 using System;
 using System.IO;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace AwsToolset.Tests.Services
@@ -16,16 +17,18 @@ namespace AwsToolset.Tests.Services
 		private S3Service _sut;
 		private readonly ICloudWatchService _cloudWatchService = new CloudWatchService();
 		private readonly RestService<MemoryStream> _restServiceMemoryStream;
-		
-		private readonly Mock<IS3Service> _s3ServiceMock;
+
+        private readonly Mock<IS3Service> _s3ServiceMock;
 		private readonly Mock<ITransferUtility> _transferUtilityMock;
+        private readonly Mock<ILogger<S3Service>> _loggerMock;
 
 		public S3ServiceTests()
 		{
 			_s3ServiceMock = new Mock<IS3Service>() { CallBase = true };
 			_restServiceMemoryStream = new RestService<MemoryStream>();
 			_transferUtilityMock = new Mock<ITransferUtility>();
-		}
+            _loggerMock = new Mock<ILogger<S3Service>>();
+        }
 
 		#region GetFileAsStream
 
@@ -57,7 +60,7 @@ namespace AwsToolset.Tests.Services
 			const string badObjectKey = "non-existing-key";
 
 			// Act & Assert
-			_sut = new S3Service(_cloudWatchService, _restServiceMemoryStream)
+			_sut = new S3Service(_cloudWatchService, _restServiceMemoryStream, _loggerMock.Object)
 			{
 				BucketRegion = RegionName
 			};
