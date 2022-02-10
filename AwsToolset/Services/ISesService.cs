@@ -16,9 +16,10 @@ namespace AwsToolset.Services
         /// <param name="bcc">List of e-mail addresses to send a hidden copy of the message to</param>
         /// <param name="template">Template name (must exist in AWS)</param>
         /// <param name="templateData">Key-value pairs for replacing template variables</param>
+        /// <param name="configurationSet">AWS SES Configuration set name</param>
         /// <returns></returns>
         Task<Toolset.SendEmailResponse> SendTemplate(string region, string sender, List<string> to, List<string> cc, List<string> bcc,
-            string template, Dictionary<string, string> templateData);
+            string template, Dictionary<string, string> templateData, string configurationSet = null);
 
         /// <summary>
         /// Gets all e-mail templates from the AWS SES service
