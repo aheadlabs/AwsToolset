@@ -13,7 +13,7 @@ namespace AwsToolset.Services
     {
         /// <inheritdoc />
         public async Task<Toolset.SendEmailResponse> SendTemplate(string region, string sender, List<string> to, List<string> cc, List<string> bcc,
-            string template, Dictionary<string, string> templateData)
+            string template, Dictionary<string, string> templateData, string configurationSet)
         {
             RegionEndpoint regionEndpoint = RegionEndpoint.GetBySystemName(region);
 
@@ -27,6 +27,7 @@ namespace AwsToolset.Services
                         TemplateData = JsonConvert.SerializeObject(templateData)
                     }
                 },
+                ConfigurationSetName = configurationSet,
                 FromEmailAddress = sender,
                 Destination = new Destination
                 {
